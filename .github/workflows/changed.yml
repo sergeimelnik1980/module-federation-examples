@@ -1,9 +1,9 @@
-name: example-pipline
+name: check-changed
 on: pull_request
 
 jobs:
   check-changed:
-    needs: cache 
+
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
