@@ -1,0 +1,65 @@
+name: example-pipline
+on: pull_request
+
+jobs:
+  stop-previous:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+
+  cache:
+    needs: stop-previous
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+    
+      - run: yarn install --frozen-lockfile
+  
+
+ 
+  check-changed:
+    needs: cache 
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.changed_packages.outputs.scope }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: changed packages
+        id: changed_packages
+        uses: allenevans/lerna-changed@master
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+          run: |
+            echo "$STEPS_CONTEXT"
+            echo "scope=${{ steps.changed_packages.outputs.scope }}"
+
+  build:
+    needs: check-changed
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.changed_packages.outputs.scope)}}
+    steps:
+      - uses: actions/checkout@v3
+   
+      - run: yarn install --frozen-lockfile
+   
+      - run: npx lerna run --scope ${{ matrix.version }} build
+
+  run-e2e-test:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.changed_packages.outputs.scope)}}
+    steps:
+      - uses: actions/checkout@v3
+      - run: yarn install --frozen-lockfil
+      - run: npx lerna run --scope ${{ matrix.version }} e2e:ci
+
+
+          
+
