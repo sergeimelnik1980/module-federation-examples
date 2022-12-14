@@ -17,5 +17,4 @@ jobs:
         uses: allenevans/lerna-changed@master
         env:
           STEPS_CONTEXT: ${{ toJson(steps) }}
-          run: |
-            echo "$STEPS_CONTEXT"
+
