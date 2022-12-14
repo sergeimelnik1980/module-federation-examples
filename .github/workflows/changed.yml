@@ -1,0 +1,21 @@
+name: example-pipline
+on: pull_request
+
+jobs:
+  check-changed:
+    needs: cache 
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - name: changed packages
+        id: changed_packages
+        uses: allenevans/lerna-changed@master
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+          run: |
+            echo "$STEPS_CONTEXT"
