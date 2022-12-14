@@ -1,10 +1,7 @@
 name: Dispatch Listener
 
 on:
-  repository_dispatch:
-    types:
-      - "test run"
-      - "test::*"
+  pull_request
 
 jobs:
   # ------------------------
