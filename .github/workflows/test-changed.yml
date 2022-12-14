@@ -29,6 +29,9 @@ jobs:
       matrix: ${{ steps.changed_packages.outputs.scope }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
       - name: changed packages
         id: changed_packages
         uses: allenevans/lerna-changed@master
@@ -37,6 +40,11 @@ jobs:
           run: |
             echo "$STEPS_CONTEXT"
             echo "scope=${{ steps.changed_packages.outputs.scope }}"
+            id: aoc-webapp-admin-panel-changed
+            echo "::set-output name=${{ steps.changed_packages.outputs.scope }}"
+
+
+     
 
   build:
     needs: check-changed
