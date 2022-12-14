@@ -40,7 +40,7 @@ jobs:
           run: |
             echo "$STEPS_CONTEXT"
             echo "scope=${{ steps.changed_packages.outputs.scope }}"
-            echo "::set-output name=matrix::$(echo "$STEPS_CONTEXT")"
+            echo "::set-output name=matrix::$(echo "scope=${{ steps.changed_packages.outputs.scope }}")"
 
 
      
