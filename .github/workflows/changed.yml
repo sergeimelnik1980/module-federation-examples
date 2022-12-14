@@ -3,18 +3,19 @@ on: pull_request
 
 jobs:
   generate-matrix:
-
     runs-on: ubuntu-latest
     outputs:
       services: ${{ steps.generate-matrix.outputs.services }}
+    
     steps:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
       - name: changed packages
-        id: changed_packages
+        id: generate-matrix
         uses: allenevans/lerna-changed@master
+      - name: Dump steps context
         env:
           STEPS_CONTEXT: ${{ toJson(steps) }}
         run: echo ::set-output name=services::${STEPS_CONTEXT}
