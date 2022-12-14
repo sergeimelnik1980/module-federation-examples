@@ -26,7 +26,7 @@ jobs:
     needs: cache 
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.changed_packages.outputs.scope }}
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -40,8 +40,7 @@ jobs:
           run: |
             echo "$STEPS_CONTEXT"
             echo "scope=${{ steps.changed_packages.outputs.scope }}"
-            id: aoc-webapp-admin-panel-changed
-            echo "::set-output name=${{ steps.changed_packages.outputs.scope }}"
+            echo "::set-output name=matrix::$(echo "$STEPS_CONTEXT")"
 
 
      
@@ -51,10 +50,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJson(needs.changed_packages.outputs.scope)}}
+      matrix: ${{fromJson(needs.check-changed.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v3
-   
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
       - run: yarn install --frozen-lockfile
    
       - run: npx lerna run --scope ${{ matrix.version }} build
@@ -64,9 +65,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJson(needs.changed_packages.outputs.scope)}}
+      matrix: ${{fromJson(needs.check-changed.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
       - run: yarn install --frozen-lockfil
       - run: npx lerna run --scope ${{ matrix.version }} e2e:ci
 
