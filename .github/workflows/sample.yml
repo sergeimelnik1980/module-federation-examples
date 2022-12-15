@@ -12,7 +12,8 @@ jobs:
       - uses: nelonoel/branch-name@v1.0.1
       - id: set-matrix
         uses: JoshuaTheMiller/conditional-build-matrix@main        
-        with:          
+        with: 
+          inputFile:  /home/runner/work/module-federation-examples/module-federation-examples/matrix_includes.json       
           # The simple branch name can be used in the filter now!
           filter: '[?runOnBranch==`${{ env.BRANCH_NAME }}` || runOnBranch==`always`]'   
   build:
