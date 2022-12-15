@@ -13,7 +13,7 @@ jobs:
       - id: set-matrix
         uses: JoshuaTheMiller/conditional-build-matrix@main        
         with:
-          inputFile:  /home/runner/work/module-federation-examples/module-federation-examples/matrix_includes.json
+          
           # inputFile: '.github/workflows/matrix_includes.json' # Default input file path
           filter: '[?runOnBranch==`${{ github.ref }}` || runOnBranch==`always`]'
           # addInclude: true
