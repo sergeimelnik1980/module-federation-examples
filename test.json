@@ -1,0 +1,44 @@
+[
+  {
+    "name": "host",
+    "version": "1.0.0",
+    "private": false,
+    "location": "/home/home/Project/module-federation-examples/react-hmr/host"
+  },
+  {
+    "name": "libs",
+    "version": "1.0.0",
+    "private": false,
+    "location": "/home/home/Project/module-federation-examples/react-hmr/libs"
+  },
+  {
+    "name": "remote1",
+    "version": "1.0.0",
+    "private": false,
+    "location": "/home/home/Project/module-federation-examples/react-hmr/remote1"
+  },
+  {
+    "name": "@server-side-rendering/remote1",
+    "version": "1.0.0",
+    "private": false,
+    "location": "/home/home/Project/module-federation-examples/server-side-rendering/remote1"
+  },
+  {
+    "name": "@server-side-rendering/remote2",
+    "version": "1.0.0",
+    "private": false,
+    "location": "/home/home/Project/module-federation-examples/server-side-rendering/remote2"
+  },
+  {
+    "name": "@server-side-rendering/shell",
+    "version": "1.0.0",
+    "private": false,
+    "location": "/home/home/Project/module-federation-examples/server-side-rendering/shell"
+  },
+  {
+    "name": "@shared-store-cross-framework/shared-store",
+    "version": "1.0.0",
+    "private": false,
+    "location": "/home/home/Project/module-federation-examples/shared-store-cross-framework/shared-store"
+  }
+]

@@ -1,0 +1,45 @@
+name: check-matrix-create
+on: pull_request
+
+jobs:
+  stop-previous:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+
+  cache:
+    needs: stop-previous
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.generate-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+        id: generate-matrix  
+      - run: yarn install --frozen-lockfile
+      - run: |
+          run: echo "::set-output name=matrix::$( node check.js )
+    
+  run-e2e-test:
+    needs: chache
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - run: echo ${{ matrix.matrix }}
+
+ 
+
+
+          
+
