@@ -15,11 +15,8 @@ jobs:
           fetch-depth: 0
       - id: set-matrix    
         run: |
-          yarn install --frozen-lockfile
-          matrix="$(node check.js)"
-          echo $matrix
-          echo $matrix | jq .
-          echo "name=matrix::$matrix" >> $GITHUB_OUTPUT
+         
+          echo "matrix={\"container\":[\"advanced-api/automatic-vendor-sharing\",\"advanced-api/dynamic-remotes\"]}" >> $GITHUB_OUTPUT
      
 
   run-e2e-test:
