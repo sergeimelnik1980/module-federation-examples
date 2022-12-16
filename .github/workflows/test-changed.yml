@@ -23,7 +23,7 @@ jobs:
         id: generate-matrix  
       - run: yarn install --frozen-lockfile
       - run: |
-          run: echo "::set-output name=matrix::$( node check.js )
+          run: echo ::set-output name=matrix::$( node check.js )
     
   run-e2e-test:
     needs: cache
