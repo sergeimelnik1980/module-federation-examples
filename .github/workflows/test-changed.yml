@@ -24,7 +24,7 @@ jobs:
       
       - run: |
      
-          matrix=$(echo {  "package": [     "RMariaDB",    "RSQLite",     "RPostgres",     "RKazam",    "duckdb"  ]})
+          matrix=$(echo {  "package": ["RMariaDB" "RSQLite" "RPostgres" "RKazam" "duckdb"]})
           echo $matrix
           echo ::set-output name=matrix::$matrix
           
