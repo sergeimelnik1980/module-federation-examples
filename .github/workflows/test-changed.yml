@@ -1,17 +1,38 @@
-name: build
-on: push
+name: example-pipline
+on: pull_request
+
 jobs:
-  job1:
+  
+  cache:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-    - id: set-matrix
-      run: echo "::set-output name=matrix::({\"include\":[{\"foo\", \"Debug\"}]})"
-  job2:
-    needs: job1
+      
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - id: set-matrix    
+        run: |
+          yarn install --frozen-lockfile
+          matrix="$(node check.js)"
+          echo "::set-output name=matrix::$matrix"
+     
+
+  run-e2e-test:
+    needs: cache
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
+      fail-fast: false
+      matrix: ${{fromJson(needs.matrix.outputs.matrix)}}
     steps:
-    - run: echo 'Run e2e-test'
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - run: echo 'Run test'
+
+
+          
+
