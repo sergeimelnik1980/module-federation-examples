@@ -24,9 +24,8 @@ jobs:
       
       - run: |
      
-          matrix=$(echo {  "package": ["RMariaDB" "RSQLite" "RPostgres" "RKazam" "duckdb"]})
-          echo $matrix
-          echo ::set-output name=matrix::$matrix
+          
+          echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
           
           
     
