@@ -3,7 +3,7 @@ on: pull_request
 
 jobs:
   
-  matrix:
+  cache:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -16,15 +16,15 @@ jobs:
       - id: set-matrix    
         run: |
 
-          echo "::set-output name=matrix::matrix={\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" 
+          echo "::set-output name=matrix:{\"container\":[\"advanced-api/automatic-vendor-sharing\",\"advanced-api/dynamic-remotes\"]}" 
      
 
   run-e2e-test:
-    needs: matrix
+    needs: cache
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJson(needs.matrix.outputs.matrix)}}
+      matrix: ${{fromJson(needs.cache.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v3
         with:
