@@ -17,6 +17,8 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           matrix="$(node check.js)"
+          echo $matrix
+          echo $matrix | jq .
           echo "::set-output name=matrix::$matrix"
      
 
