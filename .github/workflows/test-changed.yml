@@ -23,7 +23,7 @@ jobs:
         id: generate-matrix  
       - run: yarn install --frozen-lockfile
       - run: |
-          SERVICES='${{ toJSON(node check.js) }}'
+          SERVICES=$(node check.js)
           echo ::set-output name=servises::$( SERVICES )
           echo $SERVICES
           
