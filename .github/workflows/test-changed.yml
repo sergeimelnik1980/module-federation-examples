@@ -14,7 +14,7 @@ jobs:
     needs: stop-previous
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.generate-matrix.outputs.matrix }}
+      servises: ${{ steps.generate-matrix.outputs.servises }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -23,15 +23,19 @@ jobs:
         id: generate-matrix  
       - run: yarn install --frozen-lockfile
       - run: |
-          echo ::set-output name=matrix::$( node check.js )
-          echo ${{ steps.generate-matrix.outputs.matrix }}
+          SERVICES='${{ toJSON(node check.js) }}'
+          echo ::set-output name=servises::$( SERVICES )
+          echo $SERVICES
+          
     
+
+ 
   run-e2e-test:
     needs: cache
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{(needs.generate-matrix.outputs.matrix)}}
+      matrix: ${{(needs.generate-matrix.outputs.servises)}}
     steps:
       - uses: actions/checkout@v3
         with:
