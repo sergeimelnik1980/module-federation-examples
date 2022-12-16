@@ -16,7 +16,7 @@ jobs:
       - id: set-matrix    
         run: |
 
-          echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" 
+          echo "::set-output name=matrix::matrix={\"container\":[\"advanced-api/automatic-vendor-sharing\",\"advanced-api/dynamic-remotes\"]}" 
      
 
   run-e2e-test:
