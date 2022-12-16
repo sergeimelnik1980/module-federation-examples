@@ -7,7 +7,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
     - id: set-matrix
-      run: echo "::set-output name=matrix::({\"include\":[{\"foo\",:\"Debug\"}]})"
+      run: echo "::set-output name=matrix::({\"include\":[{\"foo\", \"Debug\"}]})"
   job2:
     needs: job1
     runs-on: ubuntu-latest
