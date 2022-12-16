@@ -24,7 +24,7 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: |
           
-          echo SERVICES=$(node check.js)
+          SERVICES=$(node check.js)
           echo ::set-output name=servises::$SERVICES
           echo $SERVICES
           
