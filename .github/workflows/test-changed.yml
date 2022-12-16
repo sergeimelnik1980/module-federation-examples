@@ -1,52 +1,17 @@
-name: check-matrix-create
-on: pull_request
-
+name: build
+on: push
 jobs:
-  stop-previous:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.0
-        with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
-
-  cache:
-    needs: stop-previous
+  job1:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
-        id: generate-matrix  
-      
-      - run: |
-     
-          
-          echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
-          
-          
-    
-
- 
-  run-e2e-test:
-    needs: cache
+    - id: set-matrix
+      run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+  job2:
+    needs: job1
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
-      matrix:
-        app: ${{ fromJson(needs.matrix.outputs.matrix) }}
+      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
-      - run: echo 'Run e2e test'
-
- 
-
-
-          
-
+    - run: echo 'Run e2e-test'
