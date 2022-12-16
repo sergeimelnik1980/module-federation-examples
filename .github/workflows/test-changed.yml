@@ -3,7 +3,7 @@ on: pull_request
 
 jobs:
   
-  cache:
+  matrix:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -15,12 +15,15 @@ jobs:
           fetch-depth: 0
       - id: set-matrix    
         run: |
-         
-          echo "matrix={\"container\":[\"advanced-api/automatic-vendor-sharing\",\"advanced-api/dynamic-remotes\"]}" >> $GITHUB_OUTPUT
+          yarn install --frozen-lockfile
+          matrix="$(node check.js)"
+          echo $matrix
+          echo $matrix | jq .
+          echo "::set-output name=matrix::$matrix" 
      
 
   run-e2e-test:
-    needs: cache
+    needs: matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
