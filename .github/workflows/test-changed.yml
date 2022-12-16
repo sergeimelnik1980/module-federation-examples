@@ -24,6 +24,7 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: |
           echo ::set-output name=matrix::$( node check.js )
+          echo ${{ steps.generate-matrix.outputs.matrix }}
     
   run-e2e-test:
     needs: cache
