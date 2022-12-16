@@ -24,7 +24,7 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: |
           echo SERVICES=$(node check.js)
-          echo ::set-output name=servises::$( SERVICES )
+          echo ::set-output name=servises::${SERVICES}
           echo $SERVICES
           
     
@@ -35,13 +35,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{(needs.generate-matrix.outputs.servises)}}
+      matrix:
+        servises: ${{(needs.generate-matrix.outputs.servises)}}
     steps:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
-      - run: echo ${{ matrix.matrix }}
+      - run: echo ${{ matrix.servises }}
 
  
 
