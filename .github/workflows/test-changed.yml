@@ -23,8 +23,8 @@ jobs:
         id: generate-matrix  
       
       - run: |
-          
-          matrix=$(echo { "package": [ "host", "libs", "remote1", "@server-side-rendering/remote1", "@server-side-rendering/remote2", "@server-side-rendering/shell", "@shared-store-cross-framework/shared-store" ] })
+     
+          matrix=$(echo {  "package": [     "RMariaDB",    "RSQLite",     "RPostgres",     "RKazam",    "duckdb"  ]})
           echo $matrix
           echo ::set-output name=matrix::$matrix
           

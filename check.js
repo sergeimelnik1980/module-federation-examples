@@ -29,8 +29,21 @@
 // });
 
 ////////////////////////////////////////////////////////////////////////////////
-const { exec } = require("child_process");
+// const { exec } = require("child_process");
 
+// exec("npx lerna changed --json", (error, stdout, stderr) => {
+//     if (error) {
+//         console.log(`error: ${error.message}`);
+//         return;
+//     }
+//     try {
+//       const jsonArray = JSON.parse(stdout);
+//     console.log(JSON.stringify( {include: jsonArray.map(x => x.name)}, null, 2))
+//     } catch (e) {
+//       console.error(e)
+//     }
+// });
+const { exec } = require("child_process");
 exec("npx lerna changed --json", (error, stdout, stderr) => {
     if (error) {
         console.log(`error: ${error.message}`);
@@ -38,7 +51,7 @@ exec("npx lerna changed --json", (error, stdout, stderr) => {
     }
     try {
       const jsonArray = JSON.parse(stdout);
-      console.log(JSON.stringify({ package: jsonArray.map(x => x.name)}, null, 2))
+      console.log(jsonArray.map(x => '"'+x.name+'"').join(","));
     } catch (e) {
       console.error(e)
     }
