@@ -25,8 +25,9 @@ jobs:
       - run: |
           
           matrix=$(echo { "package": [ "host", "libs", "remote1", "@server-side-rendering/remote1", "@server-side-rendering/remote2", "@server-side-rendering/shell", "@shared-store-cross-framework/shared-store" ] })
-          echo ::set-output name=matrix::$matrix
           echo $matrix
+          echo ::set-output name=matrix::$matrix
+          
           
     
 
