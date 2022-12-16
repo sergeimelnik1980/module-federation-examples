@@ -23,7 +23,8 @@ jobs:
         id: generate-matrix  
       - run: yarn install --frozen-lockfile
       - run: |
-          echo SERVICES=$(node check.js)
+          SERVICES='${{ toJSON(node check.js) }}'
+
           echo ::set-output name=servises::${SERVICES}
           echo $SERVICES
           
@@ -36,7 +37,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        servises: ${{(needs.generate-matrix.outputs.servises)}}
+        servises: ${{ fromJSON(needs.generate-matrix.outputs.servises) }}
     steps:
       - uses: actions/checkout@v3
         with:
