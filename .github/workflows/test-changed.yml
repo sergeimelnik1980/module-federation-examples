@@ -19,7 +19,7 @@ jobs:
           matrix="$(node check.js)"
           echo $matrix
           echo $matrix | jq .
-          echo "::set-output name=matrix::$matrix"
+          echo "name=matrix::$matrix" >> $GITHUB_OUTPUT
      
 
   run-e2e-test:
